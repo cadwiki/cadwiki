@@ -1,0 +1,43 @@
+﻿@page "/blog"
+
+@using BlogApp.Services
+@using System.Linq
+@inject BlogPostService BlogPostService
+@inject HttpClient Http
+<PageTitle>blog</PageTitle>
+<h1>Blog posts</h1>
+
+@if (blogPosts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var blogPost in blogPosts)
+            {
+            <tr>
+                <td><a href="/blogpost/@blogPost.TrimmedTitle">@blogPost.Title</a></td>
+                <td>@blogPost.Author</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Models.BlogPost> blogPosts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await BlogPostService.GetPostsAsync();
+        blogPosts = result;
+    }
+}

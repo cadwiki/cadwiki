@@ -1,0 +1,34 @@
+﻿@page "/blogpost/{TrimmedTitle?}"
+
+@using BlogApp.Services
+@using System.Linq
+@inject BlogPostService BlogPostService
+@inject HttpClient Http
+
+@if (blogPost == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<p>
+    @blogPost.MarkupString
+    <PageTitle>@blogPost.TrimmedTitle</PageTitle>
+</p>
+}
+
+@code {
+    [Parameter]
+#nullable enable
+    public string? TrimmedTitle { get; set; }
+#nullable enable
+    private BlogApp.Models.BlogPost? blogPost;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!String.IsNullOrEmpty(TrimmedTitle)){
+            var result = await BlogPostService.GetPostAsync(TrimmedTitle);
+            blogPost = result;
+        }
+    }
+}
