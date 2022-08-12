@@ -1,3 +1,11 @@
+## How to add new posts
+
+Write new .md and .json file for a post here:
+./WebApplication/BlogApp/wwwroot/posts/
+
+Call script to build manifest file
+./WebApplication/build-post-manifest.bat
+
 ## error
 - Could not find class: Microsoft.AspNetCore.Components.WebAssembly.Hosting:EntrypointInvoker in assembly Microsoft.AspNetCore.Components.WebAssembly
 - https://github.com/dotnet/aspnetcore/issues/38436
