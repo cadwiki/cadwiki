@@ -14,6 +14,7 @@ Call script to build manifest file
 -https://docs.microsoft.com/en-us/iis/manage/managing-performance-settings/configure-iis-7-output-caching
 
 ##Publish Steps
+heroku plugins:install heroku-cli-static
 heroku login
 dotnet publish -c Release -o release
 heroku static:deploy -a cadwiki
