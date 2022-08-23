@@ -1,5 +1,6 @@
-﻿# New post, cad wiki has released a free nuget package with this solution implemented
-
+﻿# New post  
+cad wiki has released a free nuget package with this solution implemented.  
+refer to this blog post for the free solution:  
 [http://www.cadwiki.net/blogpost/cadwiki.DllReloader-nuget-package](http://www.cadwiki.net/blogpost/cadwiki.DllReloader-nuget-package)  
 
 
@@ -10,12 +11,6 @@ It requires some finessing and the result is well worth it.
 Imagine being able to make changes in Visual Studio and reload them without closing AutoCAD.  
 No more waiting for AutoCAD to re-launch before testing your changes.  
 I have a GitHub repo ready to rock and roll with this entire solution implemented.  
-The repo is available through the paypal link above.  
-How much is it worth to never have to close AutoCAD after rebuilding a dll ever again?  
-With every purchase, you will receive an invitation to a private GitHub repo with this entire solution implemented.  
-If you're not 100% satisfied with it I will refund your entire purchase.  
-The goal of this blog is to build great tools that both developers and users love for a modest price.  
-Feel free to contact me at [cadwiki.net@gmail.com](mailto:cadwiki.net@gmail.com) for a free 1:1 demo.  
 
 # Video demo
 From this video you can see that reloading allowed me to change my Ui elements from green to orange, as well as change the Ui title text.  
