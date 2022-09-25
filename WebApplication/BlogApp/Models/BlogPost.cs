@@ -6,6 +6,7 @@ namespace BlogApp.Models
 {
     public class BlogPost
     {
+        public string DateCreated { get; set; }
         public int Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
