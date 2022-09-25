@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using BlogApp.Models;
+using System.Linq;
 
 namespace BlogApp.Services
 {
@@ -58,6 +59,7 @@ namespace BlogApp.Services
                         await GetPosts(blogPosts, jsonFileName, postFile);
                     }
                 }
+                blogPosts = blogPosts.OrderByDescending(x => x.Id).ToList();
                 return blogPosts;
             }
             catch (Exception ex)
