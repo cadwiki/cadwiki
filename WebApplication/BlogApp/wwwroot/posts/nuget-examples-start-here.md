@@ -1,5 +1,6 @@
 ﻿# nuget-examples-start-here
-The nuget example repos now have "start here" comments that you can search for in the code.  
+The nuget example repos now have "start here" comments.
+I often use these comments as search strings to remind myself what I need to change when using these packages in my existing apps.   
 Many thanks to Eslam Gamal for testing out the code and providing feedback on what types of documentation is needed for someone starting out.  
 
 
@@ -7,15 +8,15 @@ Many thanks to Eslam Gamal for testing out the code and providing feedback on wh
 
 [start here comments for CSharpApp](https://github.com/cadwiki/cadwiki-nuget-examples/commit/d66f7c91145cea82583e9a8164e315dc9a848a5d)
 
-To get started with this nuget package you will need to edit 3 items in your current app:   
+To get started with this nuget package I usually only need to edit 3 items in my current app:   
 
-1. Add a static AutoCADAppDomainDllReloader variable to your IExtensionApplication class 
-1. Modify your IExtensionApplication Initialize  
-1. Modify your IExtensionApplication Terminate  
-1. Create a RibbonButton to reload your dll
+1. Add a static AutoCADAppDomainDllReloader variable to the IExtensionApplication class 
+1. Modify the IExtensionApplication Initialize  
+1. Modify the IExtensionApplication Terminate  
+1. Create a RibbonButton to reload a dll
 1. Modify all other existing ribbon buttons to use UiRouter and GenericCommandHandler
 
-## Add a static AutoCADAppDomainDllReloader variable to your IExtensionApplication class
+## Add a static AutoCADAppDomainDllReloader variable to the IExtensionApplication class
 
 ```
 Vbnet example
@@ -25,12 +26,11 @@ CSharpExample
 public static AutoCADAppDomainDllReloader AcadAppDomainDllReloader = new AutoCADAppDomainDllReloader();
 ```
 
-## Modify your IExtensionApplication Initialize  
+## Modify the IExtensionApplication Initialize  
 This is cookie cutter copy and paste.  
 No modification needed.  
-Remove any method calls your application doesn't have.  
-UiRibbon.Tabs.TabCreator.AddTabs(doc) sets up my UiRibbon with all my tabs.  
-It's where I add my Reload dll button.  
+Remove any method calls the existing application doesn't have.  
+UiRibbon.Tabs.TabCreator.AddTabs(doc) sets up the UiRibbon with all the tabs.  
 ```
 VbNet
     Public Sub Initialize() Implements IExtensionApplication.Initialize
@@ -66,8 +66,8 @@ CSharp
         }
 ```
 
-## Modify your IExtensionApplication Terminate  
-This set is optional, however it is a good idea to terminate the AcadAppDomainDllReloader when your .Net application terminates.  
+## Modify the IExtensionApplication Terminate  
+This set is optional, however it is a good idea to terminate the AcadAppDomainDllReloader when the .Net application terminates.  
 
 ```
 Vbnet
@@ -82,8 +82,8 @@ CSharp
         }
 ```
 
-## Create a RibbonButton to reload your dll  
-For this section I would just copy paste this exact button definition and add it you one of your existing Ribbon tabs.  
+## Create a RibbonButton to reload the dll  
+For this section I would just copy paste this exact button definition and add it to one of the existing Ribbon tabs.  
 ```
 Vbnet
         Private Shared Function CreateReloadCountButton(exeName As String) As RibbonButton
@@ -136,7 +136,8 @@ AssemblyName: BusinessLogic
 FullClassName: BusinessLogic.Commands.HelloFromCadWiki  
 MethodName: Run  
 
-You need to implement this method, or change the hard coded strings to point to a different method you want to call.
+At this point, I need to implement this method below. 
+I usually copy and paste, then change the hard coded strings to point to a different method I want to call.
 
 ```
 Vbnet
@@ -148,8 +149,8 @@ Shared Function CreatHelloButton() As RibbonButton
             ribbonButton.Size = RibbonItemSize.Standard
             'start here 5 - UiRouter
             'The UiRouter contains all the information necessary for the AutoCADAppDomainDllReloader to
-            'parse a dll in the current app domain, and call the method you want to call
-            'the AutoCADAppDomainDllReloader will call your method from the most recently reloaded dll
+            'parse a dll in the current app domain, and call a method
+            'the AutoCADAppDomainDllReloader will call a method from the most recently reloaded dll
             Dim uiRouter As UiRouter = New UiRouter(
                 "BusinessLogic",
                 "BusinessLogic.Commands.HelloFromCadWiki",
@@ -178,8 +179,8 @@ public static RibbonButton CreatHelloButton()
             ribbonButton.Size = RibbonItemSize.Standard;
             //start here 5 - UiRouter
             //The UiRouter contains all the information necessary for the AutoCADAppDomainDllReloader to
-            //parse a dll in the current app domain, and call the method you want to call
-            //the AutoCADAppDomainDllReloader will call your method from the most recently reloaded dll
+            //parse a dll in the current app domain, and call a method
+            //the AutoCADAppDomainDllReloader will call a method from the most recently reloaded dll
             var uiRouter = new UiRouter(
                 "BusinessLogic",
                 "BusinessLogic.Commands.HelloFromCadWiki", 

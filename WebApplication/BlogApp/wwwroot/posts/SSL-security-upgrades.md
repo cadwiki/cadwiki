@@ -6,8 +6,8 @@ The main idea that came to mind was security.
 Since I started building this site, all the traffic has been over HTTP which isn't secure.  
 So, this weekend I did some research into HTTPS and security certificates.  
 I'm happy to announce that this site will redirect all HTTP traffic to HTTPS!   
-What the means for users is you can view this site from any link that you want.  
-And the site rules will automatically redirect you to the safer, HTTPS protocol.    
+Thie means that users can view my site from any link they want.    
+And the site rules will automatically redirect them to the safer, HTTPS protocol.    
 
 
 ## Tech
@@ -15,9 +15,9 @@ I added a SSL security certificate to the domain host for this site by using Clo
 In addition, I added a redirect rule so now all HTTP traffic will be redirected to HTTPS.  
 So now everyone should see the little grey lock to the left of the url in the browser address bar.  
 
-## How to
-For anyone interested, cloudflare does free SSL certificates even if you're not hosting your website with them.  
-They do this by giving you free namesevers that you can add to your domain which handle the certifcates for you.    
+## How I
+Cloudflare does free SSL certificates, so even though I'm not hosting my website with them, they still hooked me up with a certifcate.  
+They do this by giving out free namesevers that I can add to my domain which handle the certifcates for me.    
 They make it very easy to add security certificates.  
 They also offer 3 free redirect rules.  
 It's a pretty neat service!  

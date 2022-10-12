@@ -1,21 +1,21 @@
 ﻿# New post  
-cad wiki has released a free nuget package with this solution implemented.  
+cadwiki has released a free nuget package with this solution implemented.  
 refer to this blog post for the free solution:  
 [http://www.cadwiki.net/blogpost/cadwiki.DllReloader-nuget-package](http://www.cadwiki.net/blogpost/cadwiki.DllReloader-nuget-package)  
 
 
 # How to reload a .dll into AutoCAD
 
-It's true, you really can reload a .dll into AutoCAD without closing the program.  
+It's true, reloading a .dll into AutoCAD without closing the program is possible.  
 It requires some finessing and the result is well worth it.  
 Imagine being able to make changes in Visual Studio and reload them without closing AutoCAD.  
-No more waiting for AutoCAD to re-launch before testing your changes.  
-I have a GitHub repo ready to rock and roll with this entire solution implemented.  
+I use this workflow in my own development process and it works great for my own agile workflow.   
 
 # Video demo
-From this video you can see that reloading allowed me to change my Ui elements from green to orange, as well as change the Ui title text.  
+In this video I demonstrate that reloading allowed me to change my Ui elements from green to orange.  
+As well as change the Ui title text.  
 This reloader solution is designed to work excellently with Visual Studio dev workflows.  
-No more closing CAD before you can see your changes.  
+No more closing CAD before seeing changes to a recompiled .dll.    
 Also, no more MSBuild errors due to AutoCAD locking a .dll that needs to be deleted by visual studio during a rebuild.   
 Check it out.  
 
@@ -38,39 +38,34 @@ Your browser does not support the video tag.
   
 These contents are ordered from least to the most complex.  
  
-1. [Step by Step How To](#step-by-step-how-to) 
-1. [Why can't we reload the same .dll into AutoCAD out of the box?](#why) 
+1. [Step by Step "How I" created this solution](#step-by-step-how-I) 
+1. [Why can't I reload the same .dll into AutoCAD out of the box?](#why) 
 1. [Command definitions](#command-defs) 
 1. [File locks](#file-locks) 
 1. [App domains](#app-domains) 
 1. [References](#references) 
 
  
-<div id="step-by-step-how-to"></div>
+<div id="step-by-step-how-I"></div>
 
-## Step by Step How-To
-This first section is a step by step how-to guide for the do-it-yourself programmers.  
-The following sections describe all the concepts you need to build this yourself.  
+## Step by Step "How I" created this solution
+This first section is a step by step How I created this solution.  
 Also, keep in mind I already have this full solution available through GitHub
 
-1. Create a build file that will **'bag and tag'** all your dlls into a new subfolder for each build.  
+1. Create a build file that will **'bag and tag'** all the dlls into a new subfolder for each build.  
     * This solves the file lock issue when netloading/reloading
-    * Ideally this should be done with MSBuild and automatically update your assembly version numbers
 1. Create a method that will call a function from the AutoCAD C++ api to unload commands by groupname.
-    * This makes sure that once you reload a dll, all your commands are removed
-1. Create a UiRibbon button that will handle reloading all the necessary .dlls into your AppDomain
+    * This makes sure that before a dll is reloaded, all the commands can be removed.
+1. Create a UiRibbon button that will handle reloading all the necessary .dlls into AutoCAD's AppDomain
     * This is the magic of reloading .dlls
-    * You need to make sure you only reload .dlls that have a different assembly version than  
-    all dlls of the same name that are currently in the AppDomain. 
-    * You will also need to design some routing mechanism so your .Net App  
-    can make use of a reloaded dll in the current AppDomain
+    * The UiRibbon button handles all the logic needed to reload .dlls
+	* The logic includes skipping any and all dlls that are already in the app domain with the same, or newer version number
  
 <div id="why"></div>
 
-## Why can't we reload the same .dll into AutoCAD out of the box?
+## Why can't I reload the same .dll into AutoCAD out of the box?
 Put quite simply, Autodesk has not built this feature yet.  
-And it doesn't seem like they will anytime soon.  
-Not to fear, I have you covered.  
+And it doesn't seem like they will anytime soon.    
 
 
 
@@ -80,19 +75,19 @@ Not to fear, I have you covered.
 ## Command definitions
 ![This is a alt text.](/images/c-plus-plus.png "")  
 The first concept topic is Command definitions.  
-**An important note before we get started on command definitions.**  
+**An important note before getting started on command definitions.**  
 **This reloader solution makes use of custom AutoCAD Ribbons instead of AutoCAD command definitions.**    
 **At the time of writing, I have not figured out how to use command definitions in a reloadable way.**  
 Out of necessity, my current solution is just to remove command definitions and use the UiRibbon to drive my AutoCAD logic.  
-Maybe in the future, we will be able to discover a way to reload command definitions.  
+Maybe in the future, I will be able to discover a way to reload command definitions.  
 For now, the UiRibbon seems to be the way to go.  
 
-So, for this part of the solution we are going to write code to remove command defs.  
+So, for this part of the solution I will post the code used to remove command defs.   
 The AutoCAD .Net Api does not have a way to unload command definitions.  
 However, there is a way to do this in C++ using some library code from AutoCAD's api.  
-To do this you would also need to give all your commands a command group name.  
+To do this, I made sure to give all my commands a command group name.  
 The command group name is how the C++ code unloads the command.  
-**Here's the needed C++ code if you're feeling adventurous and want to unload your commands.**  
+**Here's C++ code I use to unload my commands.**  
 ```
 #include "stdafx.h"
 #include <aced.h> 
@@ -143,13 +138,13 @@ End If
 ## File locks
 ![This is a alt text.](/images/lock.png "File locks...so fun")  
 Second concept topic is file locks.  
-When you compile source code with Visual Studio, the compiled code will end up in some directory such as:  
+When I compile source code with Visual Studio, the compiled code will end up in some directory such as:  
 ```
 C:\Temp\bin\x64\Debug\MyNewShinyApp.dll
 ```
-If we netload "C:\Temp\bin\x64\Debug\MyNewShinyApp.dll" into AutoCAD, the file will become locked.  
+If I netload "C:\Temp\bin\x64\Debug\MyNewShinyApp.dll" into AutoCAD, the file will become locked.  
 And of course, **locking this particular file** is a huge problem for dev workflows.  
-Because, if we try to rebuild the solution while the above file is locked, we get this fun error message below.  
+Because, if I try to rebuild the solution while the above file is locked, I get this fun error message below.  
 **Example output from MSBuild stuck on a file lock:**
 ```
 >C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(4679,5): 
@@ -163,8 +158,8 @@ The process cannot access the file 'bin\x64\Debug\MyNewShinyApp.dll' because it 
 The file is locked by: "AutoCAD Application (35968)"	CadApp			
 ```
 **The solution is to create a MSBuild file that can 'bag and tag' every release into a subfolder.**  
-The MSBuild file can autoincrement all the AssemblyInfo.vb files and then create a subfolder for you.  
-If we use DateFormat and AutoIncrement on the build info,   
+The MSBuild file can autoincrement all the AssemblyInfo.vb files and then create a subfolder.  
+If I use DateFormat and AutoIncrement on the build info,   
 the directory will look something like this on 01/18/2022 after two builds:  
 ```
 First, build of the day
@@ -175,7 +170,7 @@ C:\Temp\v1.0.0118.0\MyNewShinyApp.dll   <- so netload this one instead
 Second build of the day
 C:\Temp\MyNewShinyApp.dll          <- visual studio needs this one to stay unlocked 
 C:\Temp\v1.0.0118.0\MyNewShinyApp.dll   <- locked,because it's netloaded into AutoCAD
-C:\Temp\v1.0.0118.1\MyNewShinyApp.dll   <- reload this into the AppDomain to test your changes
+C:\Temp\v1.0.0118.1\MyNewShinyApp.dll   <- I reload this into the AppDomain to test recently compiled changes
 ```
 MSBuild plays a crucial role in this solution.  
 It keeps Visual Studio free and clear of AutoCAD's file locks due to netloading.
@@ -189,48 +184,44 @@ It keeps Visual Studio free and clear of AutoCAD's file locks due to netloading.
 The final topic is app domains, and this is where the magic happens.  
 When a dll is netloaded, AutoCAD puts the .dll contents into AutoCAD's app domain.  
 After that happens, the same dll cannot be netloaded again into AutoCAD's session.  
-However, we can go directly to the AppDomain and load the dll ourself.  
+However, I can go directly to the AppDomain and load the dll myself.  
 
 ```
-Dim assemblyBytes As Byte() = System.IO.File.ReadAllBytes(pathToYourDll)
+Dim assemblyBytes As Byte() = System.IO.File.ReadAllBytes(pathToSomeDll)
 Dim reloadedAssembly As Assembly = AppDomain.CurrentDomain.Load(assemblyBytes)
 ```
 
 ## App domains woes
 Now, there are some more subtleties and things to keep in mind with AppDomains.
 
-1. **Bad things happen when you load multiple dlls with the same file name and assembly version**  
-    * So make sure to handle the condition when a user tries to reload the same versioned assembly.   
-    * **If you load a new dll into an AppDomain that already has a old copy  
-    of the same dll, make sure that the new copy and old copy have different assembly versions**.
-    * Otherwise you might encounter strange errors similar to this one I spent 2 days trying to solve:
+1. **Bad things happen when trying to load multiple dlls with the same file name and assembly version**  
+    * So I had to make sure to handle the condition when a user tries to reload the same versioned assembly.   
+    * **If I load a new dll into an AppDomain that already has a old copy  
+    of the same dll, I made sure that the new copy and old copy have different assembly versions**.
+    * Otherwise my code might encounter strange errors similar to this one I spent 2 days trying to solve:
     * **Here is an example exception thrown in AutoCAD when trying to use a WPF Window  
 AutoCAD can't find the WPF resource since there are two .dlls   
 (with the same assembly version)**
     * Root cause: The the dlls have with the same resource URI to the .xaml file
     
 ```
-System.Exception: The component 'YourNamespace.WindowYourWindow' does not have a resource identified by the URI '/YourNamespace;component/windowyourwindow.xaml'.
+System.Exception: The component 'SomeNamespace.Window' does not have a resource identified by the URI '/SomeNamespace;component/Window.xaml'.
 ```
 ![This is a alt text.](/images/wpf-uri-error.png "")  
 
-2. AutoCAD's .Net API will not do anything for you once you load a .dll into it's AppDomain
-    * Just because your ShinyNewApp.dll has been reloaded into the current AppDomain does not mean it will work as intended.
-    * You will have to build an architecture to your app to support routing between  .dlls in the AppDomain
+1. AutoCAD's .Net API will not do anything for me automatically once I load a .dll into it's AppDomain
+    * Just because my ShinyNewApp.dll has been reloaded into the current AppDomain does not mean it will work as intended.
+    * I build my own architecture that support's routing between  .dlls in the AppDomain during Ribbon button clicks
 1. AutoCAD's .Net API does not have a way to unload previous  
     Command definitions when loading a dll into its AppDomain  
-    * You will have to unload your commands via C++ AutoCAD API
-1. **My recommendation would be**:   
-    * support this Wiki
-    * check out my repo for how the solution is implemented
-    * incorporate it into your project and build something new!
+    * I had to unload my commands via C++ AutoCAD API
 
 ## Conclusion
 It is possible to reload a .dll into AutoCAD without closing or restarting CAD.  
-I've used this in my development workflows and it has saved me countless hours.  
-I've created a sample repo with this entire solution implemented.  
-The solution is available through the paypal link at the top.  
-<div id="references"></div>
+I've used this in my development workflows and it has saved me countless hours.   
+
+
+<div id="references"></div>  
 
 ## References
 Article describing what AutoCAD's AppDomain is  
