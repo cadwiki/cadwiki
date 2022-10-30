@@ -86,8 +86,8 @@ namespace BlogApp.Services
                 }
                 catch (Exception ex)
                 {
-                    var message = "Unable to read post";
-                    Console.WriteLine(message);
+                    var message = "Unable to read post ";
+                    Console.WriteLine(message + ex.Message);
                 }
 
             }
