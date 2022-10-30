@@ -8,6 +8,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using BlogApp.Models;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace BlogApp.Services
 {
@@ -75,26 +76,33 @@ namespace BlogApp.Services
             String blogFileLocation = "posts/" + jsonFileName;
             if (await DoesFileExistAsync(blogFileLocation))
             {
-                BlogPost[] currentPosts = await httpClient.GetFromJsonAsync<BlogPost[]>(blogFileLocation);
-                String markdownFileLocation = "posts/" + postFile + ".md";
-                await GetMarkdown(currentPosts, markdownFileLocation);
-                blogPosts.AddRange(currentPosts);
+                try
+                {
+                    string jsonString = await httpClient.GetStringAsync(blogFileLocation);
+                    BlogPost currentPost = JsonConvert.DeserializeObject<BlogPost>(jsonString);
+                    String markdownFileLocation = "posts/" + postFile + ".md";
+                    await GetMarkdown(currentPost, markdownFileLocation);
+                    blogPosts.Add(currentPost);
+                }
+                catch (Exception ex)
+                {
+                    var message = "Unable to read post";
+                    Console.WriteLine(message);
+                }
+
             }
         }
 
-        private async Task GetMarkdown(BlogPost[] currentPosts, string markdownFileLocation)
+        private async Task GetMarkdown(BlogPost bp, string markdownFileLocation)
         {
-            foreach (BlogPost bp in currentPosts)
+            if (await DoesFileExistAsync(markdownFileLocation))
             {
-                if (await DoesFileExistAsync(markdownFileLocation))
+                String markdown = await httpClient.GetStringAsync(markdownFileLocation);
+                if (!String.IsNullOrEmpty(markdown))
                 {
-                    String markdown = await httpClient.GetStringAsync(markdownFileLocation);
-                    if (!String.IsNullOrEmpty(markdown))
-                    {
-                        var html = Markdig.Markdown.ToHtml(markdown ?? "");
-                        var convertedMarkdown = new MarkupString(html);
-                        bp.MarkupString = convertedMarkdown;
-                    }
+                    var html = Markdig.Markdown.ToHtml(markdown ?? "");
+                    var convertedMarkdown = new MarkupString(html);
+                    bp.MarkupString = convertedMarkdown;
                 }
             }
         }
