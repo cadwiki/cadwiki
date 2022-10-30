@@ -1,9 +1,7 @@
-﻿[
-  {
+﻿{
 	"DateCreated": "2022/09/25",
-    "Id": 6,
-    "Title": "cadwiki.CadDevTools v1.0.2",
-    "Author": "cadwiki.net",
-    "Thumbnail": ""
-  }
-]
+	"Id": 6,
+	"Title": "cadwiki.CadDevTools v1.0.2",
+	"Author": "cadwiki.net",
+	"Thumbnail": ""
+}

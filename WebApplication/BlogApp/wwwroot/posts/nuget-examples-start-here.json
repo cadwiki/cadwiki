@@ -1,9 +1,7 @@
-﻿[
-  {
+﻿{
 	"DateCreated": "2022/09/11",
-    "Id": 5,
-    "Title": "nuget examples start here",
-    "Author": "cadwiki.net",
-    "Thumbnail": ""
-  }
-]
+	"Id": 5,
+	"Title": "nuget examples start here",
+	"Author": "cadwiki.net",
+	"Thumbnail": ""
+}

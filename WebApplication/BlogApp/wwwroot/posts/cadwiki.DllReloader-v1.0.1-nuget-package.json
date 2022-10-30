@@ -1,9 +1,7 @@
-﻿[
-  {
+﻿{
 	"DateCreated": "2022/09/09",
-    "Id": 4,
-    "Title": "cadwiki.DllReloader nuget package v1.0.1",
-    "Author": "cadwiki.net",
-    "Thumbnail": ""
-  }
-]
+	"Id": 4,
+	"Title": "cadwiki.DllReloader nuget package v1.0.1",
+	"Author": "cadwiki.net",
+	"Thumbnail": ""
+}

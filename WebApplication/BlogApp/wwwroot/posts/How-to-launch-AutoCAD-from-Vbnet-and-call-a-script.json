@@ -1,9 +1,7 @@
-﻿[
-  {
+﻿{
 	"DateCreated": "2022/02/16",
-    "Id": 2,
-    "Title": "How to launch AutoCAD from Vbnet and call a script",
-    "Author": "cadwiki.net",
-    "Thumbnail": ""
-  }
-]
+	"Id": 2,
+	"Title": "How to launch AutoCAD from Vbnet and call a script",
+	"Author": "cadwiki.net",
+	"Thumbnail": ""
+}

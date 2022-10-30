@@ -1,9 +1,7 @@
-﻿[
-  {
+﻿{
 	"DateCreated": "2022/10/02",
-    "Id": 7,
-    "Title": "SSL security upgrades",
-    "Author": "cadwiki.net",
-    "Thumbnail": ""
-  }
-]
+	"Id": 7,
+	"Title": "SSL security upgrades",
+	"Author": "cadwiki.net",
+	"Thumbnail": ""
+}
