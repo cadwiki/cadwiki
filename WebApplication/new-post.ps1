@@ -15,7 +15,8 @@ write-host "copied new template files."
 
 $content = Get-Content $postFolder\$jsonFile
 $json = $content | ConvertFrom-Json
-$json.DateCreated = (Get-Date).ToString()
+$date = (Get-Date)
+$json.DateCreated = $date.Year.ToString() + "/" + $date.Month.ToString() + "/" + $date.Day.ToString()
 $json.Id = $countFiles.Count.ToString()
 
 $json | ConvertTo-Json | Set-Content -Path $postFolder\$jsonFile
