@@ -6,6 +6,12 @@ Write new .md and .json file for a post here:
 Call script to build manifest file
 ./WebApplication/build-post-manifest.bat
 
+## Debug steps
+Select BlogApp  
+Click Debug  
+When chrome opens the webpage  
+Click More Tools -> Developer settings -> Network -> Check Disable Cache  
+
 ## error
 - Could not find class: Microsoft.AspNetCore.Components.WebAssembly.Hosting:EntrypointInvoker in assembly Microsoft.AspNetCore.Components.WebAssembly
 - https://github.com/dotnet/aspnetcore/issues/38436
