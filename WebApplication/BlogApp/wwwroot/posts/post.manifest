@@ -2,6 +2,7 @@ cadwiki.CadDevTools-v1.0.2.json
 cadwiki.DllReloader-nuget-package.json
 cadwiki.DllReloader-v1.0.1-nuget-package.json
 cadwiki.NUnitTestRunner.json
+Code-maps.json
 How-to-launch-AutoCAD-from-Vbnet-and-call-a-script.json
 How-to-reload-a-.dll-into-AutoCAD.json
 nuget-examples-start-here.json
