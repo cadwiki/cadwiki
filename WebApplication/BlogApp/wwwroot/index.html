@@ -2,15 +2,17 @@
 <html>
 <head>
 
-	<!--
-	<script language="javascript" type="text/javascript">
-		window.onbeforeunload = function () {   
-			// This function does nothing.  It won't spawn a confirmation dialog   
-			// But it will ensure that the page is not cached by the browser.
-		}  
-	</script>
-	-->
-	
+    <!-- This function disables caching during developement, however it breaks production code -->
+    <!-- Make sure to comment this function out before deloying to production -->
+
+    <script language="javascript" type="text/javascript">
+        window.onbeforeunload = function () {
+            // This function does nothing.  It won't spawn a confirmation dialog
+            // But it will ensure that the page is not cached by the browser.
+        }
+    </script>
+
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5F6P77X4LE"></script>
     <script>
