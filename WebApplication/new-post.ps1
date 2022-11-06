@@ -17,6 +17,7 @@ $content = Get-Content $postFolder\$jsonFile
 $json = $content | ConvertFrom-Json
 $date = (Get-Date)
 $json.DateCreated = $date.Year.ToString() + "/" + $date.Month.ToString() + "/" + $date.Day.ToString()
-$json.Id = $countFiles.Count.ToString()
+$postId = $countFiles.Count + 1
+$json.Id = $postId.ToString()
 
 $json | ConvertTo-Json | Set-Content -Path $postFolder\$jsonFile
